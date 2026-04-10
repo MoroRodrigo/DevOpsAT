@@ -1,11 +1,15 @@
 name: Env Demo
 
-on: [push]
+on:
+  push:
 
 jobs:
   env:
     runs-on: ubuntu-latest
+
     env:
       DEPLOY_ENV: staging
+
     steps:
-      - run: echo "Ambiente: $DEPLOY_ENV"
+      - name: Exibir variável
+        run: mvn clean install -DskipTests

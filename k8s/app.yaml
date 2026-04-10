@@ -32,9 +32,11 @@ spec:
     spec:
       containers:
         - name: ufo-app
-          image: SEU_USUARIO/ufo-tracker
+          image: rodrigomorof/ufo-tracker:latest
+          imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
           env:
             - name: DB_NAME
               valueFrom:
@@ -56,6 +58,7 @@ spec:
   selector:
     app: ufo-app
   ports:
-    - port: 80
+    - name: http
+      port: 8080
       targetPort: 8080
   type: ClusterIP
