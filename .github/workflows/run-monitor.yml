@@ -1,0 +1,52 @@
+name: Run Monitor
+
+on:
+  push:
+
+env:
+  GLOBAL_ENV: production
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    env:
+      DEPLOY_ENV: staging
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Debug ativado
+        run: echo "ACTIONS_STEP_DEBUG=true"
+
+      - name: Validar variável
+        run: |
+          if [ -z "$DEPLOY_ENV" ]; then
+            echo "::error::Variável DEPLOY_ENV não definida"
+            exit 1
+          else
+            echo "::warning::Variável DEPLOY_ENV OK"
+          fi
+
+      - name: Usar secret
+        run: |
+          if [ -z "${{ secrets.API_KEY }}" ]; then
+            echo "::error::API_KEY não configurada"
+            exit 1
+          else
+            echo "API_KEY configurada com sucesso"
+          fi
+
+      - name: Build (simulado)
+        run: echo "Executando build..."
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: README.md
+
+      - name: Job summary
+        run: |
+          echo "## Pipeline executado com sucesso" >> $GITHUB_STEP_SUMMARY
