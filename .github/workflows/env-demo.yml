@@ -1,0 +1,11 @@
+name: Env Demo
+
+on: [push]
+
+jobs:
+  env:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_ENV: staging
+    steps:
+      - run: echo "Ambiente: $DEPLOY_ENV"

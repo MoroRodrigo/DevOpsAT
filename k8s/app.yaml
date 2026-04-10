@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: ufology
+data:
+  DB_NAME: ufology
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+  namespace: ufology
+type: Opaque
+stringData:
+  DB_PASSWORD: devops2025!
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ufo-app
+  namespace: ufology
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ufo-app
+  template:
+    metadata:
+      labels:
+        app: ufo-app
+    spec:
+      containers:
+        - name: ufo-app
+          image: SEU_USUARIO/ufo-tracker
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_NAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ufo-app-service
+  namespace: ufology
+spec:
+  selector:
+    app: ufo-app
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP
