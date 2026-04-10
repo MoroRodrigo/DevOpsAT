@@ -1,5 +1,7 @@
 # DevOpsAT – AT DevOps
 
+![CI](https://img.shields.io/github/actions/workflow/status/MoroRodrigo/DevOpsAT/gradle-ci.yml)
+
 ## Descrição do Projeto
 
 Este repositório contém o desenvolvimento do Assessment Final da disciplina de DevOps. O objetivo do projeto é consolidar os conhecimentos adquiridos ao longo da disciplina por meio da implementação de uma aplicação completa utilizando práticas de integração contínua (CI), entrega contínua (CD), conteinerização e orquestração com Kubernetes.
